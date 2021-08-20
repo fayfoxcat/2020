@@ -1,9 +1,16 @@
 server:
   port: 5000
+spring:
+  profiles:
+    active: after_route
 
+---
 spring:
   application:
     name: gateway
+  config:
+    activate:
+      on-profile: after_route
   cloud:
     nacos:
       discovery:
@@ -20,9 +27,47 @@ spring:
             - Path=/provider/**
           filters:
             - StripPrefix=1
+
         - id: consumer
           uri: lb://consumer
           predicates:
+            # 匹配路径
             - Path=/consumer/**
+            # 断言时间
+#            - After=2021-08-18T12:36:00.789-07:00[America/Denver]
+            # 断言header [包含数字]
+#            - Header=X-Request-Id, \d+
+            # 校验cookie的名字和值
+#            - Cookie=name, fox
+            # 校验Host
+#            - Host=**.foxcat.top
+            # 校验请求方式
+#            - Method=GET
+            # 校验请求参数
+            - Query=id
+            # 校验请求参数名参数值
+#            - Query=id, 2021
           filters:
             - StripPrefix=1
+
+        - id: rewritepath
+          uri: https://blog.csdn.net
+          predicates:
+            - Path=/rewritepath/**
+          filters:
+            - RewritePath=/rewritepath/(?<segment>.*), /$\{segment}
+
+        - id: limit
+          uri: https://blog.csdn.net
+          predicates:
+            - After=2017-01-20T17:42:47.789-07:00[America/Denver]
+          filters:
+            - name: RequestRateLimiter
+              args:
+                key-resolver: '#{@uriKeyResolver}'
+                redis-rate-limiter.replenishRate: 1
+                redis-rate-limiter.burstCapacity: 3
+  redis:
+    host: localhost
+    port: 6379
+    database: 0

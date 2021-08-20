@@ -46,5 +46,5 @@ public class ConsumerController {
                 });
         manyLetters.subscribe(s -> System.out.println("Result=" + s + "\n"));
     }*/
-    
+
 }
