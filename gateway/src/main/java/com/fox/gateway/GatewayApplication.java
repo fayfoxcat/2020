@@ -23,28 +23,27 @@ public class GatewayApplication {
 
     @Bean
     public RouteLocator customerRouteLocator(RouteLocatorBuilder builder) {
-        // @formatter:off
         return builder.routes().route(r -> r.path("/time/**")
-                        .filters(f -> f.filter(new RequestTimeFilter())
-                                .addResponseHeader("X-Response-Default-Foo", "Default-Bar"))
-                        .uri("http://httpbin.org:80/get")
-                )
-                .build();
-        // @formatter:on
+                .filters(f -> f.filter(new RequestTimeFilter())
+                        .addResponseHeader("X-Response-Default-Foo", "Default-Bar"))
+                .uri("http://httpbin.org:80/get")
+        ).build();
     }
 
-//    @Bean
-//    public TokenFilter tokenFilter(){
-//        return new TokenFilter();
-//    }
+    //@Bean
+    public TokenFilter tokenFilter(){
+        return new TokenFilter();
+    }
 
-    @Bean
+    /* 请求url限流 */
+    //@Bean
     public UriKeyResolver uriKeyResolver() {
         return new UriKeyResolver();
     }
 
-//    @Bean
-//    public HostAddressKeyResolver hostAddressKeyResolver() {
-//        return new HostAddressKeyResolver();
-//    }
+    /* 请求地址限流 */
+    @Bean
+    public HostAddressKeyResolver hostAddressKeyResolver() {
+        return new HostAddressKeyResolver();
+    }
 }

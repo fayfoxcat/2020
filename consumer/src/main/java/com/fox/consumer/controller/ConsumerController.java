@@ -28,10 +28,10 @@ public class ConsumerController {
 
     @GetMapping("/flow")
     public void flow() {
-//        Collections.emptyList().stream().flatMap().collect(Collectors.toList());
+
     }
 
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         List<String> words = Arrays.asList("th", "qu");
         Flux<String> manyLetters = Flux.fromIterable(words)
                 .flatMap(word -> {
@@ -45,6 +45,6 @@ public class ConsumerController {
                     return true;
                 });
         manyLetters.subscribe(s -> System.out.println("Result=" + s + "\n"));
-    }*/
+    }
 
 }

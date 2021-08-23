@@ -21,6 +21,7 @@ spring:
           enabled: false
           lowerCaseServiceId: true
       routes:
+        # 生产者路由
         - id: provider
           uri: lb://provider
           predicates:
@@ -28,7 +29,10 @@ spring:
           filters:
             - StripPrefix=1
 
+        # 消费者路由（常用方法）
+          # id仅用于标识，匹配路由由predicates控制
         - id: consumer
+          # 设置服务地址：lb://表示本机服务
           uri: lb://consumer
           predicates:
             # 匹配路径
@@ -48,8 +52,10 @@ spring:
             # 校验请求参数名参数值
 #            - Query=id, 2021
           filters:
+            # 去除Path前缀，例：'/consumer'
             - StripPrefix=1
 
+        # 修改返回消息
         - id: rewritepath
           uri: https://blog.csdn.net
           predicates:
@@ -57,16 +63,26 @@ spring:
           filters:
             - RewritePath=/rewritepath/(?<segment>.*), /$\{segment}
 
+        # 测试限流
         - id: limit
           uri: https://blog.csdn.net
           predicates:
-            - After=2017-01-20T17:42:47.789-07:00[America/Denver]
+            - Path=/limit/**
           filters:
             - name: RequestRateLimiter
               args:
-                key-resolver: '#{@uriKeyResolver}'
+                key-resolver: '#{@hostAddressKeyResolver}'
                 redis-rate-limiter.replenishRate: 1
                 redis-rate-limiter.burstCapacity: 3
+
+        # 测试短路由id
+        - id: short
+          uri: lb://consumer
+          predicates:
+            - Path=/short/**
+          filters:
+            - StripPrefix=1
+
   redis:
     host: localhost
     port: 6379
