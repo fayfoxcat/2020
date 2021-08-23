@@ -9,3 +9,12 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+    sentinel:
+      transport:
+#        port: 18763
+        dashboard: localhost:8080
+        heartbeat-interval-ms: 500
+
+feign:
+  sentinel:
+    enabled: true
