@@ -87,8 +87,8 @@ spring:
     # Sentinel 限流
     sentinel:
       transport:
-#        port: 15000
-        dashboard: localhost:8080
+        port: 15000
+        dashboard: localhost:8748
 
   # 配置redis
   redis:

@@ -11,8 +11,8 @@ spring:
         server-addr: 127.0.0.1:8848
     sentinel:
       transport:
-#        port: 18763
-        dashboard: localhost:8080
+        port: 18763
+        dashboard: localhost:8748
         heartbeat-interval-ms: 500
 
 feign:
