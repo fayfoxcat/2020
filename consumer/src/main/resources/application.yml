@@ -14,6 +14,28 @@ spring:
         port: 18763
         dashboard: localhost:8748
         heartbeat-interval-ms: 500
+      # 配置 Sentinel规则持久化
+#      datasource:
+#        # 自定义的流控规则数据源名称
+#        flow:
+#          nacos:
+#            server-addr: ${spring.cloud.nacos.discovery.server-addr}
+#            data-id: ${spring.application.name}-flow-rules
+#            groupId: DEFAULT_GROUP
+#            data-type: json
+#            # 类型来自RuleType类
+#            rule-type: flow
+
+# 配置接口
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  # 暴露健康接口的细节
+  endpoint:
+    health:
+      show-details: always
 
 feign:
   sentinel:
