@@ -11,3 +11,6 @@
 /provider/mvnw.cmd
 /consumer/mvnw.cmd
 /gateway/mvnw.cmd
+/2020.iml
+/gateway/gateway.iml
+/provider/provider.iml
